@@ -1,5 +1,5 @@
 import React from 'react'
-import {getLocations} from '../api'
+import {getLocations, getUserLocation} from '../api'
 
 export default class Map extends React.Component {
   constructor (props) {
@@ -32,20 +32,19 @@ export default class Map extends React.Component {
     const ui = H.ui.UI.createDefault(map, defaultLayers)
 
 
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        console.log('position', position)
-        this.setState({
+    var thisComp = this
+    getUserLocation(function(latitude, longitude) {
+        console.log('position', latitude, longitude)
+        thisComp.setState({
             userLocation:
             {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude
+              latitude: latitude,
+              longitude: longitude
             }
         })
-        this.showUserLocation(map)
-      }
-    )
+        thisComp.showUserLocation(map)
+    })
+
     getLocations()
       .then(res => {
         this.setState({
