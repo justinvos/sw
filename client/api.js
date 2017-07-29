@@ -9,7 +9,10 @@ export function getLocations (appCode, appId) {
 export function getUserLocation(callback) {
     navigator.geolocation.getCurrentPosition(
       function(position) {
-        callback(position.coords.latitude, position.coords.longitude)
+        callback({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        })
       }
     )
 }

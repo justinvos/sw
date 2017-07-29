@@ -33,14 +33,10 @@ export default class Map extends React.Component {
 
 
     var thisComp = this
-    getUserLocation(function(latitude, longitude) {
-        console.log('User position:', latitude, longitude)
+    getUserLocation(function(position) {
+        console.log('User position:', position.latitude, position.longitude)
         thisComp.setState({
-            userLocation:
-            {
-              latitude: latitude,
-              longitude: longitude
-            }
+            userLocation: position
         })
         thisComp.showUserLocation(map)
     })
