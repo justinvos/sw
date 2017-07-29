@@ -63,6 +63,7 @@ function checkForProximity() {
             }
             if(hasShown === false) {
                 console.log("NEARBY:", locations[i])
+                notify(locations[i].title, "Nearby")
                 shownLocations.push({
                     position: locationPos,
                     timestamp: Math.round(Date.now() / 1000)
