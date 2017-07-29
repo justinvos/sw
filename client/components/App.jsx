@@ -8,7 +8,6 @@ class App extends React.Component {
     this.state = {
       locations: []
     }
-    //this.getSights()
   }
 
   getSights () {
@@ -21,10 +20,9 @@ class App extends React.Component {
   }
 
   render () {
-    //console.log(this.state.locations)
     return (
       <div>
-        <h1>My Local</h1>
+        <h1>MyLocal</h1>
         <Map />
       </div>
     )
