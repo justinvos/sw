@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/justinvos/sw/issues"
   },
-  "homepage": "https://github.com/justinvos/sw#readme"
+  "homepage": "https://github.com/justinvos/sw#readme",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
 }
