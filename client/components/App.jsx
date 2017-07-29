@@ -1,5 +1,6 @@
 import React from 'react'
 import {getLocations} from '../api'
+import Map from './Map'
 
 class App extends React.Component {
   constructor (props) {
@@ -24,6 +25,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>My Local</h1>
+        <Map />
       </div>
     )
   }
