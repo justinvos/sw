@@ -2,6 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import App from './components/App'
+import {getLocations, getUserLocation} from './api'
+
+var locations = []
+var userPosition = {latitude: 0, longitude: 0}
+var shownLocations = []
 
 function notify(title, body) {
   Notification.requestPermission(function(result) {
@@ -40,6 +45,42 @@ function distanceBetween(positionA, positionB) {
     return d
 }
 
+function checkForProximity() {
+    console.log(userPosition)
+
+    for(var i = 0; i < locations.length; i++) {
+        var locationPos = {
+            latitude: locations[i].position[0],
+            longitude: locations[i].position[1]
+        }
+        if(distanceBetween(userPosition, locationPos) <= 200) {
+            var hasShown = false
+            for(var s = 0; s < shownLocations.length; s++) {
+                if(locationPos.latitude === shownLocations[s].position.latitude && locationPos.longitude === shownLocations[s].position.longitude) {
+                    hasShown = true
+                    break
+                }
+            }
+            if(hasShown === false) {
+                console.log("NEARBY:", locations[i])
+                shownLocations.push({
+                    position: locationPos,
+                    timestamp: Math.round(Date.now() / 1000)
+                })
+            }
+        }
+    }
+}
+
+function refreshUserPosition() {
+    console.log("Refresh")
+    getUserLocation(function(position) {
+        userPosition = position
+        checkForProximity()
+    })
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <App />,
@@ -55,6 +96,15 @@ if("serviceWorker" in navigator) {
     console.log('Registration failed with ' + error);
   })
 }
+
+var refresher
+
+getLocations().then(function(res) {
+    locations = res.body.results.items
+}).then(function() {
+    refresher = setInterval(refreshUserPosition, 10000)
+})
+
 
 console.log("index.js loaded")
 
